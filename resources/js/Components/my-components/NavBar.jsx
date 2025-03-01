@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link, router, usePage } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { FileText, Menu, Shield } from "lucide-react";
+import { FileText, Menu, Shield, Info, BarChart2 } from "lucide-react";
 
 const Navbar = () => {
     const { auth, url } = usePage().props;
@@ -18,23 +18,22 @@ const Navbar = () => {
                     className="flex items-center gap-2 text-xl font-bold text-primary sm:text-2xl"
                 >
                     <Shield className="w-6 h-6" />
-
-                    <span className="xs:hidden">AccessibilityChecker</span>
+                    <span className="xs:hidden">A11y</span>
                 </Link>
                 <div className="items-center hidden space-x-4 md:flex">
                     <Link
                         href={route("user.show")}
                         className="flex items-center gap-1 text-sm font-medium transition-colors text-primary hover:text-primary/80"
                     >
-                        <FileText className="w-4 h-4" />
+                        <BarChart2 className="w-4 h-4" />
                         Reports
                     </Link>
                     <Link
                         href={route("info")}
                         className="flex items-center gap-1 text-sm font-medium transition-colors text-primary hover:text-primary/80"
                     >
-                        <FileText className="w-4 h-4" />
-                        info
+                        <Info className="w-4 h-4" />
+                        Info
                     </Link>
 
                     <AuthButton />
@@ -58,8 +57,16 @@ const Navbar = () => {
                                 className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-muted/50 text-primary hover:bg-muted active:bg-muted/70"
                                 onClick={() => setIsOpen(false)}
                             >
-                                <FileText className="w-5 h-5" />
+                                <BarChart2 className="w-5 h-5" />
                                 Reports
+                            </Link>
+                            <Link
+                                href={route("info")}
+                                className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-muted/50 text-primary hover:bg-muted active:bg-muted/70"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                <Info className="w-5 h-5" />
+                                Info
                             </Link>
                             <div className="pt-4">
                                 <AuthButton

@@ -1,4 +1,10 @@
-import { CheckCircle, ExternalLink, Info, XCircle } from "lucide-react";
+import {
+    CheckCircle,
+    ExternalLink,
+    Info,
+    XCircle,
+    RefreshCw,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
     Card,
@@ -8,8 +14,17 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 import AppLayout from "@/Layouts/AppLayout";
 import ScoreIndicator from "@/Components/my-components/ScoreIndicator";
+import { Link, router } from "@inertiajs/react";
+import { useState } from "react";
+import LoadingScreen from "./LoadingScreen";
 
 export default function TestReport({ report }) {
     const score = report.score;
@@ -18,9 +33,41 @@ export default function TestReport({ report }) {
     const failed = reportJson.failed || [];
     const passed = reportJson.passed || [];
     const notApplicable = reportJson.not_applicable || [];
+    const [isLoading, setIsLoading] = useState(false);
+
+    const regenerateReport = (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        router.post(
+            route("report.update", { id: report.id }),
+            {},
+            {
+                onFinish: () => setIsLoading(false),
+            }
+        );
+    };
+
+    const TitleWithTooltip = ({ title, icon: Icon, iconClassName }) => (
+        <TooltipProvider>
+            <Tooltip>
+                <TooltipTrigger asChild>
+                    <CardTitle className="flex items-center gap-2 text-base">
+                        <Icon
+                            className={`flex-shrink-0 w-4 h-4 ${iconClassName}`}
+                        />
+                        <span className="line-clamp-1">{title}</span>
+                    </CardTitle>
+                </TooltipTrigger>
+                <TooltipContent>
+                    <p className="max-w-xs">{title}</p>
+                </TooltipContent>
+            </Tooltip>
+        </TooltipProvider>
+    );
 
     return (
-        <AppLayout>
+        <AppLayout className="bg-gray-100">
+            {isLoading && <LoadingScreen />}
             <div className="container py-6 mx-auto space-y-6">
                 {/* Header Section */}
                 <Card className="border-0 shadow-lg">
@@ -43,6 +90,13 @@ export default function TestReport({ report }) {
                                 )}
                             </div>
                             <div className="flex items-center gap-6">
+                                <button
+                                    onClick={regenerateReport}
+                                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition-all bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                                >
+                                    <RefreshCw className="w-4 h-4" />
+                                    Update Report
+                                </button>
                                 <ScoreIndicator score={score} />
                             </div>
                         </div>
@@ -117,57 +171,79 @@ export default function TestReport({ report }) {
                                 </p>
                             </div>
                         ) : (
-                            failed.map((item) => (
-                                <Card
-                                    key={item.id}
-                                    className="overflow-hidden border-l-4 border-l-red-500"
-                                >
-                                    <CardHeader>
-                                        <div className="flex items-start justify-between gap-4">
-                                            <div className="space-y-1.5">
-                                                <CardTitle className="flex items-center gap-2 text-lg">
-                                                    <XCircle className="flex-shrink-0 w-5 h-5 text-red-500" />
-                                                    <span>{item.title}</span>
-                                                </CardTitle>
-                                                <CardDescription
-                                                    className="leading-normal"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: item.description,
-                                                    }}
-                                                />
-                                            </div>
-                                            <Badge
-                                                variant="outline"
-                                                className="flex-shrink-0 text-red-700 border-red-200 bg-red-50"
+                            <div>
+                                <Card className="mb-5">
+                                    <CardContent>
+                                        <p className="pt-4 text-lg text-gray-700 bg-white rounded">
+                                            Discover how to create a more
+                                            inclusive and accessible website by
+                                            exploring{" "}
+                                            <Link
+                                                href="/info"
+                                                className="text-blue-600 underline transition-colors hover:text-blue-800"
                                             >
-                                                {item.id}
-                                            </Badge>
-                                        </div>
-                                    </CardHeader>
-                                    <CardContent className="space-y-4">
-                                        <div className="p-4 rounded-lg bg-muted/50">
-                                            <div className="mb-4 text-sm whitespace-pre-wrap text-muted-foreground">
-                                                {item.issues.explanation}
-                                            </div>
-                                            <div className="space-y-3">
-                                                {item.issues.snippets.map(
-                                                    (snippet, index) => (
-                                                        <div key={index}>
-                                                            <pre className="p-3 overflow-x-auto font-mono text-xs rounded bg-muted">
-                                                                <code>
-                                                                    {
-                                                                        snippet.code_snippet
-                                                                    }
-                                                                </code>
-                                                            </pre>
-                                                        </div>
-                                                    )
-                                                )}
-                                            </div>
-                                        </div>
+                                                our comprehensive accessibility
+                                                guide
+                                            </Link>
+                                            . Learn best practices, tips, and
+                                            tools to ensure your site works for
+                                            everyone.
+                                        </p>
                                     </CardContent>
                                 </Card>
-                            ))
+                                {failed.map((item) => (
+                                    <Card
+                                        key={item.id}
+                                        className="overflow-hidden border-l-4 border-l-red-500"
+                                    >
+                                        <CardHeader>
+                                            <div className="flex items-start justify-between gap-4">
+                                                <div className="space-y-1.5">
+                                                    <TitleWithTooltip
+                                                        title={item.title}
+                                                        icon={XCircle}
+                                                        iconClassName="text-red-500"
+                                                    />
+                                                    <CardDescription
+                                                        className="leading-normal"
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: item.description,
+                                                        }}
+                                                    />
+                                                </div>
+                                                <Badge
+                                                    variant="outline"
+                                                    className="flex-shrink-0 text-red-700 border-red-200 bg-red-50"
+                                                >
+                                                    {item.id}
+                                                </Badge>
+                                            </div>
+                                        </CardHeader>
+                                        <CardContent className="space-y-4">
+                                            <div className="p-4 rounded-lg bg-muted/50">
+                                                <div className="mb-4 text-sm whitespace-pre-wrap text-muted-foreground">
+                                                    {item.issues.explanation}
+                                                </div>
+                                                <div className="space-y-3">
+                                                    {item.issues.snippets.map(
+                                                        (snippet, index) => (
+                                                            <div key={index}>
+                                                                <pre className="p-3 overflow-x-auto font-mono text-xs rounded bg-muted">
+                                                                    <code>
+                                                                        {
+                                                                            snippet.code_snippet
+                                                                        }
+                                                                    </code>
+                                                                </pre>
+                                                            </div>
+                                                        )
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                ))}
+                            </div>
                         )}
                     </TabsContent>
 
@@ -188,10 +264,11 @@ export default function TestReport({ report }) {
                                     >
                                         <CardHeader className="pb-2">
                                             <div className="flex items-start justify-between">
-                                                <CardTitle className="flex items-center gap-2 text-base">
-                                                    <CheckCircle className="flex-shrink-0 w-4 h-4 text-green-500" />
-                                                    <span>{item.title}</span>
-                                                </CardTitle>
+                                                <TitleWithTooltip
+                                                    title={item.title}
+                                                    icon={CheckCircle}
+                                                    iconClassName="text-green-500"
+                                                />
                                                 <Badge
                                                     variant="outline"
                                                     className="text-green-700 border-green-200 bg-green-50"
@@ -228,12 +305,11 @@ export default function TestReport({ report }) {
                                     >
                                         <CardHeader className="pb-2">
                                             <div className="flex items-start justify-between">
-                                                <CardTitle className="flex items-center gap-2 text-base">
-                                                    <Info className="flex-shrink-0 w-4 h-4 text-gray-500" />
-                                                    <span className="line-clamp-1">
-                                                        {item.title}
-                                                    </span>
-                                                </CardTitle>
+                                                <TitleWithTooltip
+                                                    title={item.title}
+                                                    icon={Info}
+                                                    iconClassName="text-gray-500"
+                                                />
                                                 <Badge
                                                     variant="outline"
                                                     className="text-gray-700 border-gray-200 bg-gray-50"

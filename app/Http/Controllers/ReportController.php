@@ -15,6 +15,21 @@ use function PHPUnit\Framework\returnSelf;
 
 class ReportController extends Controller
 {
+    public function update(int $id)
+    {
+        $report = Report::findOrFail($id);
+        $url = $report->url;
+        $reportData = $this->generateReport($url);
+        $report->report = json_encode([
+            'passed' => $reportData["passed"],
+            'failed' => $reportData["failed"],
+            'not_applicable' => $reportData["notApplicable"]
+        ]);
+        $report->score = $reportData["score"];
+        $report->save();
+
+        return redirect()->route("report.show", ["id" => $report->id]);
+    }
 
     public function showUser()
     {
@@ -31,6 +46,34 @@ class ReportController extends Controller
     {
         $url = $request->input("url");
 
+        $reportData = $this->generateReport($url);
+        $user = Auth::user();
+        $report = $user->reports()->create([
+            'url' => $url,
+            'report' => json_encode([
+                'passed' => $reportData["passed"],
+                'failed' => $reportData["failed"],
+                'not_applicable' => $reportData["notApplicable"]
+            ]),
+            'score' => $reportData["score"],
+        ]);
+
+        return redirect()->route("report.show", ["id" => $report->id]);
+    }
+
+
+    public function delete(int $id)
+    {
+        $report = Report::findOrFail($id);
+
+        $report->delete();
+        return redirect()->route("user.show");
+    }
+
+
+    private function generateReport(string $url)
+    {
+        set_time_limit(300);
         $process = new Process([
             'lighthouse',
             $url,
@@ -66,20 +109,17 @@ class ReportController extends Controller
                 $snippets = [];
                 $explanation = null;
 
-                // Process all items in the audit
                 if (isset($auditResult['details']['items'])) {
                     foreach ($auditResult['details']['items'] as $item) {
-                        // Collect snippets and explanation
                         if (isset($item['node']['snippet'])) {
                             $snippets[] = [
                                 'code_snippet' => $item['node']['snippet'],
                             ];
                         }
                         if (isset($item['node']['explanation']) && $explanation === null) {
-                            $explanation = $item['node']['explanation']; // Set explanation once
+                            $explanation = $item['node']['explanation'];
                         }
 
-                        // Process subItems if they exist
                         if (isset($item['subItems']) && isset($item['subItems']['items'])) {
                             foreach ($item['subItems']['items'] as $subItem) {
                                 if (isset($subItem['relatedNode']['snippet'])) {
@@ -92,7 +132,6 @@ class ReportController extends Controller
                     }
                 }
 
-                // Only add the issue if there are snippets collected
                 if (!empty($snippets)) {
                     $failed[] = [
                         'id' => $audit,
@@ -111,26 +150,7 @@ class ReportController extends Controller
         }
 
         $score = $reportData['categories']['accessibility']['score'] * 100;
-        $user = Auth::user();
-        $report = $user->reports()->create([
-            'url' => $url,
-            'report' => json_encode([
-                'passed' => $passed,
-                'failed' => $failed,
-                'not_applicable' => $notApplicable
-            ]),
-            'score' => $score
-        ]);
 
-        return redirect()->route("report.show", ["id" => $report->id]);
-    }
-
-
-    public function delete(int $id)
-    {
-        $report = Report::findOrFail($id);
-
-        $report->delete();
-        return redirect()->route("user.show");
+        return ["passed" => $passed, "failed" => $failed, "notApplicable" => $notApplicable, "score" => $score];
     }
 }
