@@ -30,7 +30,7 @@ export default function Home() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        router.get(route("report.create", { url: url }));
+        router.post(route("report.create", { url: url }));
         console.log(url);
     };
 

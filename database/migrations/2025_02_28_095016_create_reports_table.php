@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+
+            $table->string('url');
+            $table->json('passed');
+            $table->json('failed');
             $table->timestamps();
         });
     }

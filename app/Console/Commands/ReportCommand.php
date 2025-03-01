@@ -43,6 +43,8 @@ class ReportCommand extends Command
         $score = $report['categories']['accessibility']['score'] * 100;
         $this->info("Accessibility Score: $score");
 
+
+
         $visitor_friendly_messages = [
             "document-title" => "This website has a clear title, making it easier to recognize.",
             "html-has-lang" => "This site might not indicate its language properly, which could make it harder for screen readers to understand.",

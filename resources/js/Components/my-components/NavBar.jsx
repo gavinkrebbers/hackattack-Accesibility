@@ -23,11 +23,18 @@ const Navbar = () => {
                 </Link>
                 <div className="items-center hidden space-x-4 md:flex">
                     <Link
-                        href="#"
+                        href={route("user.show")}
                         className="flex items-center gap-1 text-sm font-medium transition-colors text-primary hover:text-primary/80"
                     >
                         <FileText className="w-4 h-4" />
                         Reports
+                    </Link>
+                    <Link
+                        href={route("info")}
+                        className="flex items-center gap-1 text-sm font-medium transition-colors text-primary hover:text-primary/80"
+                    >
+                        <FileText className="w-4 h-4" />
+                        info
                     </Link>
 
                     <AuthButton />
@@ -47,7 +54,7 @@ const Navbar = () => {
                     >
                         <div className="flex flex-col space-y-6">
                             <Link
-                                href="#"
+                                href={route("user.show")}
                                 className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-muted/50 text-primary hover:bg-muted active:bg-muted/70"
                                 onClick={() => setIsOpen(false)}
                             >

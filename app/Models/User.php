@@ -46,5 +46,8 @@ class User extends Authenticatable
         ];
     }
 
-    public fun
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
 }
