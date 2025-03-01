@@ -9,7 +9,7 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Home');
-});
+})->name("Home");
 
 
 Route::get('/report/{id}', [ReportController::class, 'show'])->name("report.show");

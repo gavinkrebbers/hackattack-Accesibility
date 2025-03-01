@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Link, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { FileText, Menu, Shield } from "lucide-react";
@@ -82,7 +82,7 @@ const AuthButton = ({ isMobile = false, onClick = () => {} }) => {
         return (
             <Button
                 onClick={() => {
-                    console.log("Logout clicked");
+                    router.post(route("logout"));
                     onClick();
                 }}
                 className={`text-white bg-red-600 hover:bg-red-700 ${
