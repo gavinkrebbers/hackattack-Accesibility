@@ -12,8 +12,8 @@ class Report extends Model
 
     protected $fillable = [
         'url',
-        'passed',
-        'failed',
+        'score',
+        'report',
     ];
 
 
