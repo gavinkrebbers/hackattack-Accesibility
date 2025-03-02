@@ -21,6 +21,10 @@ Route::middleware([AuthMiddleWare::class])->group(function () {
     Route::delete('/report/delete/{id}', [ReportController::class, 'delete'])->name("report.delete");
     Route::post('/regenerate/{id}', [ReportController::class, 'update'])->name('report.update');
 });
+
+Route::get('/flashcards', function () {
+    return Inertia::render("Flashcards");
+})->name('flashcards');
 Route::get('/info', function () {
     return Inertia::render("Info");
 })->name("info");

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link, router, usePage } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { FileText, Menu, Shield, Info, BarChart2 } from "lucide-react";
+import { FileText, Menu, Shield, Info, BarChart2, Book } from "lucide-react";
 
 const Navbar = () => {
     const { auth, url } = usePage().props;
@@ -27,6 +27,13 @@ const Navbar = () => {
                     >
                         <BarChart2 className="w-4 h-4" />
                         Reports
+                    </Link>
+                    <Link
+                        href={route("flashcards")}
+                        className="flex items-center gap-1 text-sm font-medium transition-colors text-primary hover:text-primary/80"
+                    >
+                        <Book className="w-4 h-4" />
+                        Flashcards
                     </Link>
                     <Link
                         href={route("info")}
@@ -61,6 +68,13 @@ const Navbar = () => {
                                 Reports
                             </Link>
                             <Link
+                                href={route("flashcards")}
+                                className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-muted/50 text-primary hover:bg-muted active:bg-muted/70"
+                            >
+                                <Book className="w-4 h-4" />
+                                Flashcards
+                            </Link>
+                            <Link
                                 href={route("info")}
                                 className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-muted/50 text-primary hover:bg-muted active:bg-muted/70"
                                 onClick={() => setIsOpen(false)}
@@ -83,9 +97,10 @@ const Navbar = () => {
 };
 
 const AuthButton = ({ isMobile = false, onClick = () => {} }) => {
-    const { user } = usePage().props.auth;
+    const { auth, url } = usePage().props;
+    const user = auth.user;
 
-    if (user) {
+    if (user || auth.id) {
         return (
             <Button
                 onClick={() => {
