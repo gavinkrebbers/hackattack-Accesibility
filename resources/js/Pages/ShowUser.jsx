@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import AppLayout from "@/Layouts/AppLayout";
 import {
@@ -53,7 +51,7 @@ export default function ShowUser({ auth }) {
     const handleConfirmDelete = () => {
         if (containerToDelete) {
             router.delete(
-                route("report-container.delete", { id: containerToDelete.id })
+                route("container.delete", { id: containerToDelete.id })
             );
         }
         setIsDeleteDialogOpen(false);

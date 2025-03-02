@@ -9,6 +9,14 @@ use Inertia\Inertia;
 
 class ReportContainerController extends Controller
 {
+
+    public function delete(int $id)
+    {
+        $reportContainer = ReportContainer::findOrFail($id);
+        $reportContainer->delete();
+        return redirect()->route("user.show");
+    }
+
     public function show(int $id)
     {
         $reportContainer = ReportContainer::with("reports")->findOrFail($id);

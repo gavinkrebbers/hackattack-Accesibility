@@ -23,7 +23,7 @@ Route::middleware([AuthMiddleWare::class])->group(function () {
     Route::delete('/report/delete/{id}', [ReportController::class, 'delete'])->name("report.delete");
     Route::post('/regenerate/{id}', [ReportController::class, 'update'])->name('report.update');
 });
-
+Route::delete('/container/{id}', [ReportContainerController::class, 'delete'])->name('container.delete');
 Route::get('/reportcontainer/{id}', [ReportContainerController::class, 'show'])->name('container.show');
 Route::post('/reportcontainer/add/{containerId}', [ReportController::class, 'addNew'])->name('report.new');
 
