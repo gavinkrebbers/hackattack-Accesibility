@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Report;
+use App\Models\ReportContainer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,25 @@ use function PHPUnit\Framework\returnSelf;
 
 class ReportController extends Controller
 {
+    public function addNew(int $containerId)
+    {
+        $reportContainer = ReportContainer::findOrFail($containerId);
+        $url = $reportContainer->url;
+        $reportData = $this->generateReport($url);
+        $user = Auth::user();
+        $newReport = $reportContainer->reports()->create([
+            'url' => $url,
+            'report' => json_encode([
+                'passed' => $reportData["passed"],
+                'failed' => $reportData["failed"],
+                'not_applicable' => $reportData["notApplicable"]
+            ]),
+            'score' => $reportData["score"],
+            'user_id' => $user->id,
+        ]);
+        return redirect()->route('container.show', ['id' => $containerId]);
+    }
+
     public function update(int $id)
     {
         $report = Report::findOrFail($id);
@@ -33,7 +53,9 @@ class ReportController extends Controller
 
     public function showUser()
     {
-        $user = Auth::user()->load('reports');
+        // $user = Auth::user()->load('reports');
+        $user = Auth::user()->load('reportContainers.reports');
+
         return Inertia::render("ShowUser", ["auth" => $user]);
     }
 
@@ -45,10 +67,15 @@ class ReportController extends Controller
     public function create(Request $request)
     {
         $url = $request->input("url");
+        $user = Auth::user();
+
+        $reportContainer = $user->reportContainers()->create([
+            "url" => $url
+        ]);
 
         $reportData = $this->generateReport($url);
-        $user = Auth::user();
-        $report = $user->reports()->create([
+
+        $report = $reportContainer->reports()->create([
             'url' => $url,
             'report' => json_encode([
                 'passed' => $reportData["passed"],
@@ -56,9 +83,11 @@ class ReportController extends Controller
                 'not_applicable' => $reportData["notApplicable"]
             ]),
             'score' => $reportData["score"],
+            'user_id' => $user->id,
         ]);
+        return redirect()->route('container.show', ['id' => $reportContainer->id]);
 
-        return redirect()->route("report.show", ["id" => $report->id]);
+        // return redirect()->route("report.show", ["id" => $report->id]);
     }
 
 

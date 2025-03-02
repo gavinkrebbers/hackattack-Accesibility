@@ -21,6 +21,7 @@ import {
     Trash2,
     Clock,
     BarChart,
+    History,
 } from "lucide-react";
 import { Link, router, usePage } from "@inertiajs/react";
 import {
@@ -34,28 +35,29 @@ import {
 import ScoreIndicator from "@/Components/my-components/ScoreIndicator";
 
 export default function ShowUser({ auth }) {
-    const user = auth;
-    const reports = user.reports;
+    const reportContainers = auth.report_containers;
 
     const [searchTerm, setSearchTerm] = useState("");
-    const [reportToDelete, setReportToDelete] = useState(null);
+    const [containerToDelete, setContainerToDelete] = useState(null);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-    const filteredReports = reports.filter((report) =>
-        report.url.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredContainers = reportContainers.filter((container) =>
+        container.url.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const handleDeleteClick = (report) => {
-        setReportToDelete(report);
+    const handleDeleteClick = (container) => {
+        setContainerToDelete(container);
         setIsDeleteDialogOpen(true);
     };
 
     const handleConfirmDelete = () => {
-        if (reportToDelete) {
-            router.delete(route("report.delete", { id: reportToDelete.id }));
+        if (containerToDelete) {
+            router.delete(
+                route("report-container.delete", { id: containerToDelete.id })
+            );
         }
         setIsDeleteDialogOpen(false);
-        setReportToDelete(null);
+        setContainerToDelete(null);
     };
 
     const formatUrl = (url) => {
@@ -70,6 +72,14 @@ export default function ShowUser({ auth }) {
         }
     };
 
+    const getMostRecentReport = (container) => {
+        return container.reports.reduce((latest, current) => {
+            return new Date(current.created_at) > new Date(latest.created_at)
+                ? current
+                : latest;
+        }, container.reports[0]);
+    };
+
     return (
         <AppLayout>
             <div className="container py-6 mx-auto space-y-6 bg-slate-100">
@@ -78,9 +88,9 @@ export default function ShowUser({ auth }) {
                         <div className="flex items-center space-x-4">
                             <div>
                                 <CardTitle className="text-2xl">
-                                    {user.name}
+                                    {auth.name}
                                 </CardTitle>
-                                <CardDescription>{user.email}</CardDescription>
+                                <CardDescription>{auth.email}</CardDescription>
                             </div>
                         </div>
                     </CardHeader>
@@ -89,11 +99,11 @@ export default function ShowUser({ auth }) {
                             <div className="flex items-center">
                                 <CalendarDays className="w-4 h-4 mr-1" />
                                 Joined{" "}
-                                {new Date(user.created_at).toLocaleDateString()}
+                                {new Date(auth.created_at).toLocaleDateString()}
                             </div>
                             <div>
                                 <Badge variant="secondary">
-                                    {reports.length} Reports
+                                    {reportContainers.length} Websites
                                 </Badge>
                             </div>
                         </div>
@@ -104,12 +114,12 @@ export default function ShowUser({ auth }) {
                     <div className="flex items-center justify-between">
                         <h2 className="flex items-center gap-2 text-2xl font-bold">
                             <BarChart className="w-6 h-6" />
-                            Reports
+                            Websites
                         </h2>
                         <div className="relative">
                             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
-                                placeholder="Search reports..."
+                                placeholder="Search websites..."
                                 className="pl-8 w-[250px]"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -117,75 +127,98 @@ export default function ShowUser({ auth }) {
                         </div>
                     </div>
 
-                    {filteredReports.length === 0 ? (
+                    {filteredContainers.length === 0 ? (
                         <Card className="p-8 text-center">
                             <p className="text-muted-foreground">
-                                No reports found
+                                No websites found
                             </p>
                         </Card>
                     ) : (
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                            {filteredReports.map((report) => (
-                                <Card
-                                    key={report.id}
-                                    className="overflow-hidden transition-all duration-200 hover:shadow-lg"
-                                >
-                                    <CardHeader className="pb-2">
-                                        <div className="flex items-start justify-between">
-                                            <div className="flex-1 truncate">
-                                                <CardTitle className="flex items-center gap-2 text-lg truncate">
-                                                    <LinkIcon className="flex-shrink-0 w-4 h-4" />
-                                                    <span
-                                                        className="truncate"
-                                                        title={report.url}
-                                                    >
-                                                        {formatUrl(report.url)}
-                                                    </span>
-                                                </CardTitle>
+                            {filteredContainers.map((container) => {
+                                let latestReport = container.reports[0];
+                                const score = latestReport.score;
+                                const date = latestReport.created_at;
+                                latestReport = JSON.parse(latestReport.report);
+                                console.log(latestReport);
+                                return (
+                                    <Card
+                                        key={container.id}
+                                        className="overflow-hidden transition-all duration-200 hover:shadow-lg"
+                                    >
+                                        <CardHeader className="pb-2">
+                                            <div className="flex items-start justify-between">
+                                                <div className="flex-1 truncate">
+                                                    <CardTitle className="flex items-center gap-2 text-lg truncate">
+                                                        <LinkIcon className="flex-shrink-0 w-4 h-4" />
+                                                        <span
+                                                            className="truncate"
+                                                            title={
+                                                                container.url
+                                                            }
+                                                        >
+                                                            {formatUrl(
+                                                                container.url
+                                                            )}
+                                                        </span>
+                                                    </CardTitle>
+                                                </div>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="-mt-1 -mr-2 text-red-500 hover:text-red-700 hover:bg-red-100"
+                                                    onClick={() =>
+                                                        handleDeleteClick(
+                                                            container
+                                                        )
+                                                    }
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </Button>
                                             </div>
+                                            <CardDescription className="flex items-center justify-between gap-1">
+                                                <div className="flex items-center gap-1">
+                                                    <Clock className="w-3 h-3" />
+                                                    {new Date(
+                                                        date
+                                                    ).toLocaleDateString()}
+                                                </div>
+                                                <div className="flex items-center gap-1 text-xs">
+                                                    <History className="w-3 h-3" />
+                                                    {container.reports.length}{" "}
+                                                    reports
+                                                </div>
+                                            </CardDescription>
+                                        </CardHeader>
+                                        <CardContent className="pb-3">
+                                            <div className="flex justify-center py-2">
+                                                <ScoreIndicator score={score} />
+                                            </div>
+                                        </CardContent>
+                                        <CardFooter className="flex justify-end pt-0">
                                             <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                className="-mt-1 -mr-2 text-red-500 hover:text-red-700 hover:bg-red-100"
-                                                onClick={() =>
-                                                    handleDeleteClick(report)
-                                                }
+                                                variant="outline"
+                                                size="sm"
+                                                className="w-full"
+                                                asChild
                                             >
-                                                <Trash2 className="w-4 h-4" />
+                                                <Link
+                                                    href={route(
+                                                        "container.show",
+                                                        {
+                                                            id: container.id,
+                                                        }
+                                                    )}
+                                                    className="flex items-center justify-center gap-1"
+                                                >
+                                                    View Reports
+                                                    <ExternalLink className="w-3 h-3 ml-1" />
+                                                </Link>
                                             </Button>
-                                        </div>
-                                        <CardDescription className="flex items-center gap-1">
-                                            <Clock className="w-3 h-3" />
-                                            {new Date(
-                                                report.created_at
-                                            ).toLocaleDateString()}
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent className="pb-3">
-                                        <div className="flex justify-center py-2">
-                                            <ScoreIndicator
-                                                score={report.score}
-                                            />
-                                        </div>
-                                    </CardContent>
-                                    <CardFooter className="flex justify-end pt-0">
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            className="w-full"
-                                            asChild
-                                        >
-                                            <Link
-                                                href={`/report/${report.id}`}
-                                                className="flex items-center justify-center gap-1"
-                                            >
-                                                View Report
-                                                <ExternalLink className="w-3 h-3 ml-1" />
-                                            </Link>
-                                        </Button>
-                                    </CardFooter>
-                                </Card>
-                            ))}
+                                        </CardFooter>
+                                    </Card>
+                                );
+                            })}
                         </div>
                     )}
                 </div>
@@ -199,10 +232,11 @@ export default function ShowUser({ auth }) {
                     <DialogHeader>
                         <DialogTitle>Confirm Deletion</DialogTitle>
                         <DialogDescription>
-                            Are you sure you want to delete this report?
-                            {reportToDelete && (
+                            Are you sure you want to delete all reports for this
+                            website?
+                            {containerToDelete && (
                                 <p className="mt-2 font-medium">
-                                    {reportToDelete.url}
+                                    {containerToDelete.url}
                                 </p>
                             )}
                             This action cannot be undone.
