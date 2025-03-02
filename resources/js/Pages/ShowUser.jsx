@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import AppLayout from "@/Layouts/AppLayout";
 import {
@@ -70,18 +72,10 @@ export default function ShowUser({ auth }) {
         }
     };
 
-    const getMostRecentReport = (container) => {
-        return container.reports.reduce((latest, current) => {
-            return new Date(current.created_at) > new Date(latest.created_at)
-                ? current
-                : latest;
-        }, container.reports[0]);
-    };
-
     return (
         <AppLayout>
-            <div className="container py-6 mx-auto space-y-6 bg-slate-100">
-                <Card className="border-0 shadow-md">
+            <div className="container py-6 mx-auto space-y-6 bg-[#faf6e6]">
+                <Card className="border-0 shadow-md bg-[#EDE9DA]">
                     <CardHeader>
                         <div className="flex items-center space-x-4">
                             <div>
@@ -118,7 +112,7 @@ export default function ShowUser({ auth }) {
                             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                                 placeholder="Search websites..."
-                                className="pl-8 w-[250px]"
+                                className="pl-8 w-[250px] bg-[#faf6e6] border-[#EDE9DA]"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -126,7 +120,7 @@ export default function ShowUser({ auth }) {
                     </div>
 
                     {filteredContainers.length === 0 ? (
-                        <Card className="p-8 text-center">
+                        <Card className="p-8 text-center bg-[#EDE9DA]">
                             <p className="text-muted-foreground">
                                 No websites found
                             </p>
@@ -134,7 +128,7 @@ export default function ShowUser({ auth }) {
                     ) : (
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                             {filteredContainers.map((container) => {
-                                let latestReportObject = container.reports[0];
+                                const latestReportObject = container.reports[0];
 
                                 const score = latestReportObject.score;
                                 const date = latestReportObject.created_at;
@@ -145,7 +139,7 @@ export default function ShowUser({ auth }) {
                                 return (
                                     <Card
                                         key={container.id}
-                                        className="overflow-hidden transition-all duration-200 hover:shadow-lg"
+                                        className="overflow-hidden transition-all duration-200 hover:shadow-lg bg-[#EDE9DA]"
                                     >
                                         <CardHeader className="pb-2">
                                             <div className="flex items-start justify-between">
@@ -167,7 +161,7 @@ export default function ShowUser({ auth }) {
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
-                                                    className="-mt-1 -mr-2 text-red-500 hover:text-red-700 hover:bg-red-100"
+                                                    className="-mt-1 -mr-2 text-red-500 hover:text-red-700 hover:bg-[#faf6e6]"
                                                     onClick={() =>
                                                         handleDeleteClick(
                                                             container
@@ -200,7 +194,7 @@ export default function ShowUser({ auth }) {
                                             <Button
                                                 variant="outline"
                                                 size="sm"
-                                                className="w-full"
+                                                className="w-full bg-[#faf6e6] hover:bg-[#EDE9DA]"
                                                 asChild
                                             >
                                                 <Link
@@ -229,7 +223,7 @@ export default function ShowUser({ auth }) {
                 open={isDeleteDialogOpen}
                 onOpenChange={setIsDeleteDialogOpen}
             >
-                <DialogContent>
+                <DialogContent className="bg-[#faf6e6]">
                     <DialogHeader>
                         <DialogTitle>Confirm Deletion</DialogTitle>
                         <DialogDescription>
@@ -247,12 +241,14 @@ export default function ShowUser({ auth }) {
                         <Button
                             variant="outline"
                             onClick={() => setIsDeleteDialogOpen(false)}
+                            className="bg-[#EDE9DA] hover:bg-[#faf6e6]"
                         >
                             Cancel
                         </Button>
                         <Button
                             variant="destructive"
                             onClick={handleConfirmDelete}
+                            className="hover:bg-red-700"
                         >
                             Delete
                         </Button>

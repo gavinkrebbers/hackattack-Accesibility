@@ -57,7 +57,7 @@ export default function ScoreIndicator({ score }) {
                     >
                         <div className="w-24 h-24 mb-2">
                             <img
-                                src={image || "/placeholder.svg"}
+                                src={image}
                                 alt={`Score indicator: ${score}`}
                                 width={96}
                                 height={96}

@@ -1,17 +1,16 @@
-"use client";
-
 import { useState } from "react";
-import { Link, router, usePage } from "@inertiajs/react";
-import { Button } from "@/components/ui/button";
+import { Link, usePage, router } from "@inertiajs/react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { FileText, Menu, Shield, Info, BarChart2, Book } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Menu } from "lucide-react";
+import { BarChart2, Book, Info, Shield } from "lucide-react";
 
 const Navbar = () => {
     const { auth, url } = usePage().props;
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <nav className="sticky top-0 z-50 w-full bg-white border-b border-gray-200 bg-opacity-80 backdrop-blur-md dark:bg-gray-900 dark:border-gray-800 dark:bg-opacity-80">
+        <nav className="sticky top-0 z-50 w-full bg-[#EDE9DA] border-b border-[#faf6e6] bg-opacity-80 backdrop-blur-md dark:bg-[#EDE9DA] dark:border-[#faf6e6] dark:bg-opacity-80">
             <div className="container flex items-center justify-between h-16 px-4 mx-auto">
                 <Link
                     href="/"
@@ -49,19 +48,23 @@ const Navbar = () => {
                 {/* Mobile Navigation */}
                 <Sheet open={isOpen} onOpenChange={setIsOpen}>
                     <SheetTrigger asChild className="md:hidden">
-                        <Button variant="outline" size="sm" className="p-2">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            className="p-2 bg-[#faf6e6] hover:bg-[#EDE9DA]"
+                        >
                             <Menu className="w-5 h-5" />
                             <span className="sr-only">Toggle menu</span>
                         </Button>
                     </SheetTrigger>
                     <SheetContent
                         side="right"
-                        className="w-[80%] sm:w-[350px] pt-10"
+                        className="w-[80%] sm:w-[350px] pt-10 bg-[#faf6e6]"
                     >
                         <div className="flex flex-col space-y-6">
                             <Link
                                 href={route("user.show")}
-                                className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-muted/50 text-primary hover:bg-muted active:bg-muted/70"
+                                className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-[#EDE9DA] text-primary hover:bg-[#EDE9DA]/80 active:bg-[#EDE9DA]/90"
                                 onClick={() => setIsOpen(false)}
                             >
                                 <BarChart2 className="w-5 h-5" />
@@ -69,14 +72,14 @@ const Navbar = () => {
                             </Link>
                             <Link
                                 href={route("flashcards")}
-                                className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-muted/50 text-primary hover:bg-muted active:bg-muted/70"
+                                className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-[#EDE9DA] text-primary hover:bg-[#EDE9DA]/80 active:bg-[#EDE9DA]/90"
                             >
                                 <Book className="w-4 h-4" />
                                 Flashcards
                             </Link>
                             <Link
                                 href={route("info")}
-                                className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-muted/50 text-primary hover:bg-muted active:bg-muted/70"
+                                className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-[#EDE9DA] text-primary hover:bg-[#EDE9DA]/80 active:bg-[#EDE9DA]/90"
                                 onClick={() => setIsOpen(false)}
                             >
                                 <Info className="w-5 h-5" />
@@ -125,7 +128,9 @@ const AuthButton = ({ isMobile = false, onClick = () => {} }) => {
             <Button
                 asChild
                 variant="outline"
-                className={isMobile ? "w-full" : ""}
+                className={`bg-[#faf6e6] hover:bg-[#EDE9DA] ${
+                    isMobile ? "w-full" : ""
+                }`}
                 onClick={onClick}
             >
                 <Link href="/login">Login</Link>

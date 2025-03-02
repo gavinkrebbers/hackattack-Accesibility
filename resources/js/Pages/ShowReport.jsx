@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 
 import {
@@ -81,11 +83,11 @@ export default function TestReport({ reportContainer }) {
     );
 
     return (
-        <AppLayout className="bg-gray-100">
+        <AppLayout className="bg-[#faf6e6]">
             {isLoading && <LoadingScreen />}
-            <div className="container py-6 mx-auto space-y-6">
+            <div className="container py-6 mx-auto space-y-6 bg-[#faf6e6]">
                 {/* Header Section */}
-                <Card className="border-0 shadow-lg">
+                <Card className="border-0 shadow-lg bg-[#EDE9DA]">
                     <CardHeader className="pb-2">
                         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
                             <div className="flex flex-col items-center md:items-start">
@@ -128,7 +130,7 @@ export default function TestReport({ reportContainer }) {
                                 </Select>
                                 <button
                                     onClick={regenerateReport}
-                                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition-all bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary transition-all bg-[#faf6e6] rounded-md hover:bg-[#EDE9DA] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                                 >
                                     <RefreshCw className="w-4 h-4" />
                                     Update Report
@@ -176,22 +178,22 @@ export default function TestReport({ reportContainer }) {
 
                 {/* Rest of the component remains the same, just using currentReport instead of report */}
                 <Tabs defaultValue="failed" className="w-full">
-                    <TabsList className="grid w-full grid-cols-3 mb-6">
+                    <TabsList className="grid w-full grid-cols-3 mb-6 bg-[#EDE9DA]">
                         <TabsTrigger
                             value="failed"
-                            className="data-[state=active]:bg-red-50 data-[state=active]:text-red-700"
+                            className="data-[state=active]:bg-[#faf6e6] data-[state=active]:text-primary"
                         >
                             Failed Tests
                         </TabsTrigger>
                         <TabsTrigger
                             value="passed"
-                            className="data-[state=active]:bg-green-50 data-[state=active]:text-green-700"
+                            className="data-[state=active]:bg-[#faf6e6] data-[state=active]:text-primary"
                         >
                             Passed Tests
                         </TabsTrigger>
                         <TabsTrigger
                             value="na"
-                            className="data-[state=active]:bg-gray-50 data-[state=active]:text-gray-700"
+                            className="data-[state=active]:bg-[#faf6e6] data-[state=active]:text-primary"
                         >
                             Not Applicable
                         </TabsTrigger>
@@ -212,9 +214,9 @@ export default function TestReport({ reportContainer }) {
                             </div>
                         ) : (
                             <div>
-                                <Card className="mb-5">
+                                <Card className="mb-5 bg-[#EDE9DA]">
                                     <CardContent>
-                                        <p className="pt-4 text-lg text-gray-700 bg-white rounded">
+                                        <p className="pt-4 text-lg text-gray-700 rounded">
                                             Discover how to create a more
                                             inclusive and accessible website by
                                             exploring{" "}
@@ -234,7 +236,7 @@ export default function TestReport({ reportContainer }) {
                                 {failed.map((item) => (
                                     <Card
                                         key={item.id}
-                                        className="overflow-hidden border-l-4 border-l-red-500"
+                                        className="overflow-hidden border-l-4 border-l-red-500 bg-[#EDE9DA]"
                                     >
                                         <CardHeader>
                                             <div className="flex items-start justify-between gap-4">
@@ -268,7 +270,7 @@ export default function TestReport({ reportContainer }) {
                                                     {item.issues.snippets.map(
                                                         (snippet, index) => (
                                                             <div key={index}>
-                                                                <pre className="p-3 overflow-x-auto font-mono text-xs rounded bg-muted">
+                                                                <pre className="p-3 overflow-x-auto font-mono text-xs rounded bg-[#faf6e6]">
                                                                     <code>
                                                                         {
                                                                             snippet.code_snippet
@@ -290,7 +292,7 @@ export default function TestReport({ reportContainer }) {
                     {/* Passed Tests Content */}
                     <TabsContent value="passed" className="space-y-4">
                         {passed.length === 0 ? (
-                            <Card className="p-6">
+                            <Card className="p-6 bg-[#EDE9DA]">
                                 <p className="text-center text-muted-foreground">
                                     No passed tests to display
                                 </p>
@@ -300,7 +302,7 @@ export default function TestReport({ reportContainer }) {
                                 {passed.map((item) => (
                                     <Card
                                         key={item.id}
-                                        className="border-l-4 border-l-green-500"
+                                        className="border-l-4 border-l-green-500 bg-[#EDE9DA]"
                                     >
                                         <CardHeader className="pb-2">
                                             <div className="flex items-start justify-between">
@@ -331,7 +333,7 @@ export default function TestReport({ reportContainer }) {
                     {/* Not Applicable Tests Content */}
                     <TabsContent value="na" className="space-y-4">
                         {notApplicable.length === 0 ? (
-                            <Card className="p-6">
+                            <Card className="p-6 bg-[#EDE9DA]">
                                 <p className="text-center text-muted-foreground">
                                     No not-applicable tests to display
                                 </p>
@@ -341,7 +343,7 @@ export default function TestReport({ reportContainer }) {
                                 {notApplicable.map((item) => (
                                     <Card
                                         key={item.id}
-                                        className="border-l-4 border-l-gray-300"
+                                        className="border-l-4 border-l-gray-300 bg-[#EDE9DA]"
                                     >
                                         <CardHeader className="pb-2">
                                             <div className="flex items-start justify-between">
