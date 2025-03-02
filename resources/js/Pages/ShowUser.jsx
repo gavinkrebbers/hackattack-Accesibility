@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import AppLayout from "@/Layouts/AppLayout";
 import {
@@ -23,7 +21,7 @@ import {
     BarChart,
     History,
 } from "lucide-react";
-import { Link, router, usePage } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import {
     Dialog,
     DialogContent,

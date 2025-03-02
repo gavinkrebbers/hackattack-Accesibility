@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import {
     ArrowRight,
@@ -58,6 +56,7 @@ export default function Home() {
     return (
         <AppLayout>
             {isLoading && <LoadingScreen />}
+
             <main className="flex flex-col min-h-screen">
                 <section className="w-full py-12 md:py-24 lg:py-32 bg-secondary/20">
                     <div className="container px-4 md:px-6">

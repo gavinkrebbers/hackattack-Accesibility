@@ -1,5 +1,6 @@
 import Navbar from "@/Components/my-components/NavBar";
 import { Head } from "@inertiajs/react";
+import { useEffect } from "react";
 
 export default function AppLayout({ children }) {
     return (
