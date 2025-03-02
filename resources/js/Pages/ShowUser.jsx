@@ -134,10 +134,13 @@ export default function ShowUser({ auth }) {
                     ) : (
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                             {filteredContainers.map((container) => {
-                                let latestReport = container.reports[0];
-                                const score = latestReport.score;
-                                const date = latestReport.created_at;
-                                latestReport = JSON.parse(latestReport.report);
+                                let latestReportObject = container.reports[0];
+
+                                const score = latestReportObject.score;
+                                const date = latestReportObject.created_at;
+                                const latestReport = JSON.parse(
+                                    latestReportObject.report
+                                );
                                 console.log(latestReport);
                                 return (
                                     <Card
