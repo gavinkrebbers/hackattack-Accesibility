@@ -1,15 +1,9 @@
+"use client";
+
 const flashcards = [
     {
         question: "What is web accessibility?",
         answer: "Web accessibility means designing and developing websites, tools, and technologies so that people with disabilities can perceive, understand, navigate, and interact with them effectively.",
-    },
-    {
-        question: "What does WCAG stand for?",
-        answer: "WCAG stands for Web Content Accessibility Guidelines. It is a set of recommendations for making web content more accessible.",
-    },
-    {
-        question: "What are the four principles of WCAG?",
-        answer: "The four principles of WCAG are: 1. Perceivable – Information must be presented in ways users can perceive. 2. Operable – Users must be able to navigate and interact with the interface. 3. Understandable – Content and operation must be clear and easy to understand. 4. Robust – Content must be compatible with current and future technologies.",
     },
     {
         question: "What is the purpose of ARIA in web accessibility?",
@@ -155,7 +149,7 @@ export default function FlashcardApp() {
 
     return (
         <AppLayout>
-            <div className="container flex flex-col items-center justify-center min-h-[calc(100vh-6rem)] bg-gray-100 mx-auto">
+            <div className="container flex flex-col items-center justify-center min-h-[calc(100vh-6rem)] bg-[#faf6e6] mx-auto">
                 <div className="w-full max-w-3xl space-y-8">
                     {/* Header */}
                     <div className="space-y-2 text-center">
@@ -200,8 +194,8 @@ export default function FlashcardApp() {
                         >
                             {/* Front */}
                             <div
-                                className={`absolute inset-0 backface-hidden p-8
-                                      flex flex-col items-center justify-center text-center`}
+                                className={`absolute inset-0 backface-hidden p-8 rounded
+                                      flex flex-col items-center justify-center text-center bg-[#F0E8D2]`}
                             >
                                 <div className="space-y-4">
                                     <div className="text-sm font-medium text-muted-foreground">
@@ -216,10 +210,10 @@ export default function FlashcardApp() {
                             {/* Back */}
                             <div
                                 className={`absolute inset-0 backface-hidden p-8 rotate-y-180
-                                      flex flex-col items-center justify-center text-center bg-muted/50`}
+                                      flex flex-col items-center justify-center text-center bg-[#faf6e6]`}
                             >
                                 <div className="space-y-4">
-                                    <div className="text-sm font-medium text-muted-foreground">
+                                    <div className="text-sm font-medium rounded text-muted-foreground">
                                         Answer
                                     </div>
                                     <div className="text-lg">
@@ -236,7 +230,7 @@ export default function FlashcardApp() {
                             variant="outline"
                             onClick={handlePrevious}
                             disabled={currentIndex === 0}
-                            className="w-[100px]"
+                            className="w-[100px] bg-[#F0E8D2]"
                         >
                             <ChevronLeft className="w-4 h-4 mr-2" />
                             Previous
@@ -247,7 +241,7 @@ export default function FlashcardApp() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={handleFlip}
-                                className="rounded-full"
+                                className="rounded-full bg-[#F0E8D2]"
                             >
                                 <Repeat2 className="w-4 h-4" />
                             </Button>
@@ -256,7 +250,7 @@ export default function FlashcardApp() {
                         <Button
                             onClick={handleNext}
                             disabled={currentIndex === flashcards.length - 1}
-                            className="w-[100px]"
+                            className="w-[100px] bg-[#76746d]"
                         >
                             Next
                             <ChevronRight className="w-4 h-4 ml-2" />

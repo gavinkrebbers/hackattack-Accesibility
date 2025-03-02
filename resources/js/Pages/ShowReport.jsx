@@ -87,7 +87,7 @@ export default function TestReport({ reportContainer }) {
             {isLoading && <LoadingScreen />}
             <div className="container py-6 mx-auto space-y-6 bg-[#faf6e6]">
                 {/* Header Section */}
-                <Card className="border-0 shadow-lg bg-[#EDE9DA]">
+                <Card className="border-0 shadow-lg bg-[#F0E8D2]">
                     <CardHeader className="pb-2">
                         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
                             <div className="flex flex-col items-center md:items-start">
@@ -109,7 +109,7 @@ export default function TestReport({ reportContainer }) {
                                     value={selectedReportId}
                                     onValueChange={setSelectedReportId}
                                 >
-                                    <SelectTrigger className="w-[200px]">
+                                    <SelectTrigger className="w-[200px] bg-[#E0D6BA]">
                                         <SelectValue placeholder="Select report" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -130,7 +130,7 @@ export default function TestReport({ reportContainer }) {
                                 </Select>
                                 <button
                                     onClick={regenerateReport}
-                                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary transition-all bg-[#faf6e6] rounded-md hover:bg-[#EDE9DA] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary transition-all bg-[#faf6e6] rounded-md hover:bg-[#F0E8D2] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                                 >
                                     <RefreshCw className="w-4 h-4" />
                                     Update Report
@@ -178,7 +178,7 @@ export default function TestReport({ reportContainer }) {
 
                 {/* Rest of the component remains the same, just using currentReport instead of report */}
                 <Tabs defaultValue="failed" className="w-full">
-                    <TabsList className="grid w-full grid-cols-3 mb-6 bg-[#EDE9DA]">
+                    <TabsList className="grid w-full grid-cols-3 mb-6 bg-[#F0E8D2]">
                         <TabsTrigger
                             value="failed"
                             className="data-[state=active]:bg-[#faf6e6] data-[state=active]:text-primary"
@@ -214,7 +214,7 @@ export default function TestReport({ reportContainer }) {
                             </div>
                         ) : (
                             <div>
-                                <Card className="mb-5 bg-[#EDE9DA]">
+                                <Card className="mb-5 bg-[#F0E8D2]">
                                     <CardContent>
                                         <p className="pt-4 text-lg text-gray-700 rounded">
                                             Discover how to create a more
@@ -236,10 +236,10 @@ export default function TestReport({ reportContainer }) {
                                 {failed.map((item) => (
                                     <Card
                                         key={item.id}
-                                        className="overflow-hidden border-l-4 border-l-red-500 bg-[#EDE9DA]"
+                                        className="overflow-hidden border-l-4 border-l-red-500 bg-[#F0E8D2]"
                                     >
                                         <CardHeader>
-                                            <div className="flex items-start justify-between gap-4">
+                                            <div className="flex items-start justify-between gap-4 ">
                                                 <div className="space-y-1.5">
                                                     <TitleWithTooltip
                                                         title={item.title}
@@ -247,7 +247,7 @@ export default function TestReport({ reportContainer }) {
                                                         iconClassName="text-red-500"
                                                     />
                                                     <CardDescription
-                                                        className="leading-normal"
+                                                        className="leading-normal text-black"
                                                         dangerouslySetInnerHTML={{
                                                             __html: item.description,
                                                         }}
@@ -261,9 +261,9 @@ export default function TestReport({ reportContainer }) {
                                                 </Badge>
                                             </div>
                                         </CardHeader>
-                                        <CardContent className="space-y-4">
-                                            <div className="p-4 rounded-lg bg-muted/50">
-                                                <div className="mb-4 text-sm whitespace-pre-wrap text-muted-foreground">
+                                        <CardContent className="space-y-4 ">
+                                            <div className="p-4 bg-[#E0D6BA] rounded-lg">
+                                                <div className="mb-4 text-sm text-black whitespace-pre-wrap">
                                                     {item.issues.explanation}
                                                 </div>
                                                 <div className="space-y-3">
@@ -292,7 +292,7 @@ export default function TestReport({ reportContainer }) {
                     {/* Passed Tests Content */}
                     <TabsContent value="passed" className="space-y-4">
                         {passed.length === 0 ? (
-                            <Card className="p-6 bg-[#EDE9DA]">
+                            <Card className="p-6 bg-[#F0E8D2]">
                                 <p className="text-center text-muted-foreground">
                                     No passed tests to display
                                 </p>
@@ -302,7 +302,7 @@ export default function TestReport({ reportContainer }) {
                                 {passed.map((item) => (
                                     <Card
                                         key={item.id}
-                                        className="border-l-4 border-l-green-500 bg-[#EDE9DA]"
+                                        className="border-l-4 border-l-green-500 bg-[#F0E8D2]"
                                     >
                                         <CardHeader className="pb-2">
                                             <div className="flex items-start justify-between">
@@ -320,7 +320,7 @@ export default function TestReport({ reportContainer }) {
                                             </div>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-sm text-muted-foreground">
+                                            <p className="text-sm text-black">
                                                 {item.description}
                                             </p>
                                         </CardContent>
@@ -333,7 +333,7 @@ export default function TestReport({ reportContainer }) {
                     {/* Not Applicable Tests Content */}
                     <TabsContent value="na" className="space-y-4">
                         {notApplicable.length === 0 ? (
-                            <Card className="p-6 bg-[#EDE9DA]">
+                            <Card className="p-6 bg-[#F0E8D2]">
                                 <p className="text-center text-muted-foreground">
                                     No not-applicable tests to display
                                 </p>
@@ -343,7 +343,7 @@ export default function TestReport({ reportContainer }) {
                                 {notApplicable.map((item) => (
                                     <Card
                                         key={item.id}
-                                        className="border-l-4 border-l-gray-300 bg-[#EDE9DA]"
+                                        className="border-l-4 border-l-gray-300 bg-[#F0E8D2]"
                                     >
                                         <CardHeader className="pb-2">
                                             <div className="flex items-start justify-between">
@@ -361,7 +361,7 @@ export default function TestReport({ reportContainer }) {
                                             </div>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-sm text-muted-foreground">
+                                            <p className="text-sm text-black">
                                                 {item.description}
                                             </p>
                                         </CardContent>

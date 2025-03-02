@@ -232,8 +232,8 @@ export default function AccessibilityInfo() {
 
     return (
         <AppLayout>
-            <div className="container py-8 mx-auto space-y-8">
-                <Card>
+            <div className="container py-8 mx-auto space-y-8 bg-[#faf6e6]">
+                <Card className="bg-[#F0E8D2]">
                     <CardHeader>
                         <CardTitle className="text-3xl font-bold">
                             Web Accessibility Standards
@@ -255,7 +255,7 @@ export default function AccessibilityInfo() {
                 </Card>
 
                 <Tabs defaultValue="Content and Structure">
-                    <TabsList className="mb-4">
+                    <TabsList className="mb-4 bg-[#F0E8D2]">
                         {Object.keys(accessibilityTests).map((category) => (
                             <TabsTrigger key={category} value={category}>
                                 {category}
@@ -265,7 +265,7 @@ export default function AccessibilityInfo() {
                     {Object.entries(accessibilityTests).map(
                         ([category, tests]) => (
                             <TabsContent key={category} value={category}>
-                                <Card>
+                                <Card className="bg-[#F0E8D2]">
                                     <CardHeader>
                                         <CardTitle>{category}</CardTitle>
                                     </CardHeader>

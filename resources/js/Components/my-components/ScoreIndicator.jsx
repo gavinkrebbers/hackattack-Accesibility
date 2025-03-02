@@ -25,7 +25,7 @@ export default function ScoreIndicator({ score }) {
             setMessage("Excellent!");
             setBgColor("bg-green-50");
             setTextColor("text-green-800");
-        } else if (score >= 90) {
+        } else if (score >= 85) {
             setImage(HappyGam);
             setMessage("Good job!");
             setBgColor("bg-blue-50");

@@ -73,7 +73,7 @@ export default function ShowUser({ auth }) {
     return (
         <AppLayout>
             <div className="container py-6 mx-auto space-y-6 bg-[#faf6e6]">
-                <Card className="border-0 shadow-md bg-[#EDE9DA]">
+                <Card className="border-0 shadow-md bg-[#F0E8D2]">
                     <CardHeader>
                         <div className="flex items-center space-x-4">
                             <div>
@@ -110,7 +110,7 @@ export default function ShowUser({ auth }) {
                             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
                                 placeholder="Search websites..."
-                                className="pl-8 w-[250px] bg-[#faf6e6] border-[#EDE9DA]"
+                                className="pl-8 w-[250px] bg-[#faf6e6] border-[#F0E8D2]"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -118,7 +118,7 @@ export default function ShowUser({ auth }) {
                     </div>
 
                     {filteredContainers.length === 0 ? (
-                        <Card className="p-8 text-center bg-[#EDE9DA]">
+                        <Card className="p-8 text-center bg-[#F0E8D2]">
                             <p className="text-muted-foreground">
                                 No websites found
                             </p>
@@ -133,11 +133,10 @@ export default function ShowUser({ auth }) {
                                 const latestReport = JSON.parse(
                                     latestReportObject.report
                                 );
-                                console.log(latestReport);
                                 return (
                                     <Card
                                         key={container.id}
-                                        className="overflow-hidden transition-all duration-200 hover:shadow-lg bg-[#EDE9DA]"
+                                        className="overflow-hidden transition-all duration-200 hover:shadow-lg bg-[#F0E8D2]"
                                     >
                                         <CardHeader className="pb-2">
                                             <div className="flex items-start justify-between">
@@ -192,7 +191,7 @@ export default function ShowUser({ auth }) {
                                             <Button
                                                 variant="outline"
                                                 size="sm"
-                                                className="w-full bg-[#faf6e6] hover:bg-[#EDE9DA]"
+                                                className="w-full bg-[#faf6e6] hover:bg-[#F0E8D2]"
                                                 asChild
                                             >
                                                 <Link
@@ -220,6 +219,7 @@ export default function ShowUser({ auth }) {
             <Dialog
                 open={isDeleteDialogOpen}
                 onOpenChange={setIsDeleteDialogOpen}
+                className="bg-[#faf6e6]"
             >
                 <DialogContent className="bg-[#faf6e6]">
                     <DialogHeader>
@@ -228,7 +228,7 @@ export default function ShowUser({ auth }) {
                             Are you sure you want to delete all reports for this
                             website?
                             {containerToDelete && (
-                                <p className="mt-2 font-medium">
+                                <p className="mt-2 text-lg font-extrabold text-black">
                                     {containerToDelete.url}
                                 </p>
                             )}
@@ -239,7 +239,7 @@ export default function ShowUser({ auth }) {
                         <Button
                             variant="outline"
                             onClick={() => setIsDeleteDialogOpen(false)}
-                            className="bg-[#EDE9DA] hover:bg-[#faf6e6]"
+                            className="bg-[#F0E8D2] hover:bg-[#faf6e6]"
                         >
                             Cancel
                         </Button>

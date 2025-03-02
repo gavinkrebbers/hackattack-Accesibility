@@ -10,14 +10,14 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <nav className="sticky top-0 z-50 w-full bg-[#EDE9DA] border-b border-[#faf6e6] bg-opacity-80 backdrop-blur-md dark:bg-[#EDE9DA] dark:border-[#faf6e6] dark:bg-opacity-80">
+        <nav className="sticky top-0 z-50 w-full bg-[#F0E8D2] border-b border-[#faf6e6] bg-opacity-80 backdrop-blur-md dark:bg-[#F0E8D2] dark:border-[#faf6e6] dark:bg-opacity-80">
             <div className="container flex items-center justify-between h-16 px-4 mx-auto">
                 <Link
                     href="/"
                     className="flex items-center gap-2 text-xl font-bold text-primary sm:text-2xl"
                 >
                     <Shield className="w-6 h-6" />
-                    <span className="xs:hidden">A11y</span>
+                    <span className="xs:hidden">A11Y</span>
                 </Link>
                 <div className="items-center hidden space-x-4 md:flex">
                     <Link
@@ -51,7 +51,7 @@ const Navbar = () => {
                         <Button
                             variant="outline"
                             size="sm"
-                            className="p-2 bg-[#faf6e6] hover:bg-[#EDE9DA]"
+                            className="p-2 bg-[#faf6e6] hover:bg-[#F0E8D2]"
                         >
                             <Menu className="w-5 h-5" />
                             <span className="sr-only">Toggle menu</span>
@@ -64,7 +64,7 @@ const Navbar = () => {
                         <div className="flex flex-col space-y-6">
                             <Link
                                 href={route("user.show")}
-                                className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-[#EDE9DA] text-primary hover:bg-[#EDE9DA]/80 active:bg-[#EDE9DA]/90"
+                                className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-[#F0E8D2] text-primary hover:bg-[#F0E8D2]/80 active:bg-[#F0E8D2]/90"
                                 onClick={() => setIsOpen(false)}
                             >
                                 <BarChart2 className="w-5 h-5" />
@@ -72,14 +72,14 @@ const Navbar = () => {
                             </Link>
                             <Link
                                 href={route("flashcards")}
-                                className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-[#EDE9DA] text-primary hover:bg-[#EDE9DA]/80 active:bg-[#EDE9DA]/90"
+                                className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-[#F0E8D2] text-primary hover:bg-[#F0E8D2]/80 active:bg-[#F0E8D2]/90"
                             >
                                 <Book className="w-4 h-4" />
                                 Flashcards
                             </Link>
                             <Link
                                 href={route("info")}
-                                className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-[#EDE9DA] text-primary hover:bg-[#EDE9DA]/80 active:bg-[#EDE9DA]/90"
+                                className="flex items-center gap-2 p-3 text-base font-medium transition-colors rounded-md bg-[#F0E8D2] text-primary hover:bg-[#F0E8D2]/80 active:bg-[#F0E8D2]/90"
                                 onClick={() => setIsOpen(false)}
                             >
                                 <Info className="w-5 h-5" />
@@ -128,7 +128,7 @@ const AuthButton = ({ isMobile = false, onClick = () => {} }) => {
             <Button
                 asChild
                 variant="outline"
-                className={`bg-[#faf6e6] hover:bg-[#EDE9DA] ${
+                className={`bg-[#faf6e6] hover:bg-[#F0E8D2] ${
                     isMobile ? "w-full" : ""
                 }`}
                 onClick={onClick}
