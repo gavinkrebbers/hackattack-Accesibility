@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     ArrowRight,
     Check,
@@ -26,7 +26,9 @@ import { Input } from "@/components/ui/input";
 import AppLayout from "@/Layouts/AppLayout";
 import { router } from "@inertiajs/react";
 import { usePage } from "@inertiajs/react";
+import { motion, useScroll } from "framer-motion";
 import LoadingScreen from "./LoadingScreen";
+import spwalk from '../../../public/spwalk.gif';
 
 export default function Home() {
     const [url, setUrl] = useState("");
@@ -34,6 +36,17 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(false);
     const [showAuthNotification, setShowAuthNotification] = useState(false);
     const { auth } = usePage().props;
+
+
+    const { scrollYProgress } = useScroll();
+    const [gifPosition, setGifPosition] = useState(0);
+    useEffect(() => {
+        const unsubscribe = scrollYProgress.on("change", (progress) => {
+        setGifPosition(progress * 90); 
+        });
+
+        return () => unsubscribe();
+    }, [scrollYProgress]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -518,6 +531,18 @@ export default function Home() {
                             Mathew, Anna, and Megan
                         </p>
                     </div>
+                    <motion.img
+                        src={spwalk}
+                        alt="Moving mascot"
+                        className="moving-gif"
+                        style={{
+                        position: "fixed",
+                        bottom: "10px",
+                        left: `${gifPosition}%`, // Moves left to right as you scroll
+                        width: "100px",
+                        height: "auto",
+                        }}
+                    />
                 </footer>
             </main>
         </AppLayout>
