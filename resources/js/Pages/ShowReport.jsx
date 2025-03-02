@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import {
     CheckCircle,
     ExternalLink,
@@ -30,7 +31,7 @@ import {
 } from "@/components/ui/select";
 import AppLayout from "@/Layouts/AppLayout";
 import ScoreIndicator from "@/Components/my-components/ScoreIndicator";
-import { Link, router, usePage } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import LoadingScreen from "./LoadingScreen";
 
 export default function TestReport({ reportContainer }) {
@@ -132,7 +133,11 @@ export default function TestReport({ reportContainer }) {
                                     <RefreshCw className="w-4 h-4" />
                                     Update Report
                                 </button>
-                                <ScoreIndicator score={currentReport.score} />
+                                <div className="flex items-center gap-3">
+                                    <ScoreIndicator
+                                        score={currentReport.score}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </CardHeader>
