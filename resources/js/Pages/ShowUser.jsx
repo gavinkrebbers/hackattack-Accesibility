@@ -125,92 +125,101 @@ export default function ShowUser({ auth }) {
                         </Card>
                     ) : (
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                            {filteredContainers.map((container) => {
-                                const latestReportObject = container.reports[0];
+                            {filteredContainers
+                                .slice()
+                                .reverse()
+                                .map((container) => {
+                                    const latestReportObject =
+                                        container.reports.at(-1);
 
-                                const score = latestReportObject.score;
-                                const date = latestReportObject.created_at;
-                                const latestReport = JSON.parse(
-                                    latestReportObject.report
-                                );
-                                return (
-                                    <Card
-                                        key={container.id}
-                                        className="overflow-hidden transition-all duration-200 hover:shadow-lg bg-[#F0E8D2]"
-                                    >
-                                        <CardHeader className="pb-2">
-                                            <div className="flex items-start justify-between">
-                                                <div className="flex-1 truncate">
-                                                    <CardTitle className="flex items-center gap-2 text-lg truncate">
-                                                        <LinkIcon className="flex-shrink-0 w-4 h-4" />
-                                                        <span
-                                                            className="truncate"
-                                                            title={
-                                                                container.url
-                                                            }
-                                                        >
-                                                            {formatUrl(
-                                                                container.url
-                                                            )}
-                                                        </span>
-                                                    </CardTitle>
-                                                </div>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    className="-mt-1 -mr-2 text-red-500 hover:text-red-700 hover:bg-[#faf6e6]"
-                                                    onClick={() =>
-                                                        handleDeleteClick(
-                                                            container
-                                                        )
-                                                    }
-                                                >
-                                                    <Trash2 className="w-4 h-4" />
-                                                </Button>
-                                            </div>
-                                            <CardDescription className="flex items-center justify-between gap-1">
-                                                <div className="flex items-center gap-1">
-                                                    <Clock className="w-3 h-3" />
-                                                    {new Date(
-                                                        date
-                                                    ).toLocaleDateString()}
-                                                </div>
-                                                <div className="flex items-center gap-1 text-xs">
-                                                    <History className="w-3 h-3" />
-                                                    {container.reports.length}{" "}
-                                                    reports
-                                                </div>
-                                            </CardDescription>
-                                        </CardHeader>
-                                        <CardContent className="pb-3">
-                                            <div className="flex justify-center py-2">
-                                                <ScoreIndicator score={score} />
-                                            </div>
-                                        </CardContent>
-                                        <CardFooter className="flex justify-end pt-0">
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
-                                                className="w-full bg-[#faf6e6] hover:bg-[#F0E8D2]"
-                                                asChild
-                                            >
-                                                <Link
-                                                    href={route(
-                                                        "container.show",
-                                                        {
-                                                            id: container.id,
+                                    const score = latestReportObject.score;
+                                    const date = latestReportObject.created_at;
+                                    const latestReport = JSON.parse(
+                                        latestReportObject.report
+                                    );
+                                    return (
+                                        <Card
+                                            key={container.id}
+                                            className="overflow-hidden transition-all duration-200 hover:shadow-lg bg-[#F0E8D2]"
+                                        >
+                                            <CardHeader className="pb-2">
+                                                <div className="flex items-start justify-between">
+                                                    <div className="flex-1 truncate">
+                                                        <CardTitle className="flex items-center gap-2 text-lg truncate">
+                                                            <LinkIcon className="flex-shrink-0 w-4 h-4" />
+                                                            <span
+                                                                className="truncate"
+                                                                title={
+                                                                    container.url
+                                                                }
+                                                            >
+                                                                {formatUrl(
+                                                                    container.url
+                                                                )}
+                                                            </span>
+                                                        </CardTitle>
+                                                    </div>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="-mt-1 -mr-2 text-red-500 hover:text-red-700 hover:bg-[#faf6e6]"
+                                                        onClick={() =>
+                                                            handleDeleteClick(
+                                                                container
+                                                            )
                                                         }
-                                                    )}
-                                                    className="flex items-center justify-center gap-1"
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </Button>
+                                                </div>
+                                                <CardDescription className="flex items-center justify-between gap-1">
+                                                    <div className="flex items-center gap-1">
+                                                        <Clock className="w-3 h-3" />
+                                                        {new Date(
+                                                            date
+                                                        ).toLocaleDateString()}
+                                                    </div>
+                                                    <div className="flex items-center gap-1 text-xs">
+                                                        <History className="w-3 h-3" />
+                                                        {
+                                                            container.reports
+                                                                .length
+                                                        }{" "}
+                                                        reports
+                                                    </div>
+                                                </CardDescription>
+                                            </CardHeader>
+                                            <CardContent className="pb-3">
+                                                <div className="flex justify-center py-2">
+                                                    <ScoreIndicator
+                                                        score={score}
+                                                    />
+                                                </div>
+                                            </CardContent>
+                                            <CardFooter className="flex justify-end pt-0">
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    className="w-full bg-[#faf6e6] hover:bg-[#F0E8D2]"
+                                                    asChild
                                                 >
-                                                    View Reports
-                                                    <ExternalLink className="w-3 h-3 ml-1" />
-                                                </Link>
-                                            </Button>
-                                        </CardFooter>
-                                    </Card>
-                                );
-                            })}
+                                                    <Link
+                                                        href={route(
+                                                            "container.show",
+                                                            {
+                                                                id: container.id,
+                                                            }
+                                                        )}
+                                                        className="flex items-center justify-center gap-1"
+                                                    >
+                                                        View Reports
+                                                        <ExternalLink className="w-3 h-3 ml-1" />
+                                                    </Link>
+                                                </Button>
+                                            </CardFooter>
+                                        </Card>
+                                    );
+                                })}
                         </div>
                     )}
                 </div>

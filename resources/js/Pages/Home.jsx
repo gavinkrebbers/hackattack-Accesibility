@@ -61,7 +61,6 @@ export default function Home() {
             {isLoading && <LoadingScreen />}
 
             <main className="flex flex-col min-h-screen bg-[#faf6e6]">
-                <img src="" />
                 {/* First Section: Introduction */}
                 <section className="w-full py-12 md:py-24 lg:py-32 bg-[#F0E8D2] flex gap-0 justify-center">
                     <div className="container px-4 md:px-6">

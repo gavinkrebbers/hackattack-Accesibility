@@ -16,7 +16,6 @@ const Navbar = () => {
                     href="/"
                     className="flex items-center gap-2 text-xl font-bold text-primary sm:text-2xl"
                 >
-                    <Shield className="w-6 h-6" />
                     <span className="xs:hidden">A11Y</span>
                 </Link>
                 <div className="items-center hidden space-x-4 md:flex">

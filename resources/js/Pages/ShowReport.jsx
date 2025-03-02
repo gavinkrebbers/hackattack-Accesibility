@@ -38,14 +38,14 @@ import LoadingScreen from "./LoadingScreen";
 
 export default function TestReport({ reportContainer }) {
     const [selectedReportId, setSelectedReportId] = useState(
-        reportContainer.reports[0]?.id
+        reportContainer.reports.at(-1).id
     );
 
     const [isLoading, setIsLoading] = useState(false);
 
     const currentReport =
         reportContainer.reports.find((r) => r.id === selectedReportId) ||
-        reportContainer.reports[0];
+        reportContainer.reports.at(-1);
     const reportJson = JSON.parse(currentReport.report);
 
     const failed = reportJson.failed || [];
