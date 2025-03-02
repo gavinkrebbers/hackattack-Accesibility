@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportContainerController;
 use App\Http\Controllers\ReportController;
 use App\Http\Middleware\AuthMiddleWare;
 use App\Models\Report;
+use App\Models\ReportContainer;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,6 +23,9 @@ Route::middleware([AuthMiddleWare::class])->group(function () {
     Route::delete('/report/delete/{id}', [ReportController::class, 'delete'])->name("report.delete");
     Route::post('/regenerate/{id}', [ReportController::class, 'update'])->name('report.update');
 });
+
+Route::get('/reportcontainer/{id}', [ReportContainerController::class, 'show'])->name('container.show');
+Route::post('/reportcontainer/add/{containerId}', [ReportController::class, 'addNew'])->name('report.new');
 
 Route::get('/flashcards', function () {
     return Inertia::render("Flashcards");

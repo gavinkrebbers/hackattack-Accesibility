@@ -5,26 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Report extends Model
+class ReportContainer extends Model
 {
-    /** @use HasFactory<\Database\Factories\ReportFactory> */
+    /** @use HasFactory<\Database\Factories\ReportContainerFactory> */
     use HasFactory;
 
     protected $fillable = [
         'url',
-        'user_id',
         'score',
         'report',
     ];
 
-
-    public function User()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function reportContainer()
+    public function reports()
     {
-        return $this->belongsTo(ReportContainer::class);
+        return $this->hasMany(Report::class);
     }
 }

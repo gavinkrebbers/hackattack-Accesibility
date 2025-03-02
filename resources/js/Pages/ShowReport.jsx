@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
     CheckCircle,
     ExternalLink,
@@ -20,26 +21,39 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import AppLayout from "@/Layouts/AppLayout";
 import ScoreIndicator from "@/Components/my-components/ScoreIndicator";
-import { Link, router } from "@inertiajs/react";
-import { useState } from "react";
+import { Link, router, usePage } from "@inertiajs/react";
 import LoadingScreen from "./LoadingScreen";
 
-export default function TestReport({ report }) {
-    const score = report.score;
-    const reportJson = JSON.parse(report.report);
+export default function TestReport({ reportContainer }) {
+    const [selectedReportId, setSelectedReportId] = useState(
+        reportContainer.reports[0]?.id
+    );
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const currentReport =
+        reportContainer.reports.find((r) => r.id === selectedReportId) ||
+        reportContainer.reports[0];
+    const reportJson = JSON.parse(currentReport.report);
 
     const failed = reportJson.failed || [];
     const passed = reportJson.passed || [];
     const notApplicable = reportJson.not_applicable || [];
-    const [isLoading, setIsLoading] = useState(false);
 
     const regenerateReport = (e) => {
         e.preventDefault();
         setIsLoading(true);
         router.post(
-            route("report.update", { id: report.id }),
+            route("report.new", { containerId: reportContainer.id }),
             {},
             {
                 onFinish: () => setIsLoading(false),
@@ -77,19 +91,40 @@ export default function TestReport({ report }) {
                                 <CardTitle className="mb-2 text-3xl font-bold tracking-tight">
                                     Accessibility Test Report
                                 </CardTitle>
-                                {report.url && (
-                                    <a
-                                        href={report.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-primary truncate hover:underline flex items-center gap-1.5"
-                                    >
-                                        {report.url}
-                                        <ExternalLink className="h-3.5 w-3.5" />
-                                    </a>
-                                )}
+                                <a
+                                    href={reportContainer.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-primary truncate hover:underline flex items-center gap-1.5"
+                                >
+                                    {reportContainer.url}
+                                    <ExternalLink className="h-3.5 w-3.5" />
+                                </a>
                             </div>
                             <div className="flex items-center gap-6">
+                                <Select
+                                    value={selectedReportId}
+                                    onValueChange={setSelectedReportId}
+                                >
+                                    <SelectTrigger className="w-[200px]">
+                                        <SelectValue placeholder="Select report" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {reportContainer.reports.map(
+                                            (report, index) => (
+                                                <SelectItem
+                                                    key={report.id}
+                                                    value={report.id}
+                                                >
+                                                    Report {index + 1} -{" "}
+                                                    {new Date(
+                                                        report.created_at
+                                                    ).toLocaleDateString()}
+                                                </SelectItem>
+                                            )
+                                        )}
+                                    </SelectContent>
+                                </Select>
                                 <button
                                     onClick={regenerateReport}
                                     className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition-all bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
@@ -97,7 +132,7 @@ export default function TestReport({ report }) {
                                     <RefreshCw className="w-4 h-4" />
                                     Update Report
                                 </button>
-                                <ScoreIndicator score={score} />
+                                <ScoreIndicator score={currentReport.score} />
                             </div>
                         </div>
                     </CardHeader>
@@ -134,7 +169,7 @@ export default function TestReport({ report }) {
                     </CardContent>
                 </Card>
 
-                {/* Tabs Section */}
+                {/* Rest of the component remains the same, just using currentReport instead of report */}
                 <Tabs defaultValue="failed" className="w-full">
                     <TabsList className="grid w-full grid-cols-3 mb-6">
                         <TabsTrigger
