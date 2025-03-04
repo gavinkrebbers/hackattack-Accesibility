@@ -282,7 +282,7 @@ export default function Home() {
                         </div>
                         <p className="text-sm text-center text-muted-foreground md:text-left">
                             © {new Date().getFullYear()} A11Y. Created by Gavin,
-                            Mathew, An, and Megan
+                            An, Matthew, and Megan
                         </p>
                     </div>
                     <motion.img
