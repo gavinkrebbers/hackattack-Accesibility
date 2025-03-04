@@ -11,6 +11,7 @@ import {
     CardFooter,
 } from "@/components/ui/card";
 import { AtSign, Lock } from "lucide-react";
+import { Button } from "@headlessui/react";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -113,13 +114,13 @@ export default function Login({ status, canResetPassword }) {
                                     </Link>
                                 )}
                             </div>
-                            <button
+                            <Button
                                 type="submit"
                                 className="w-full"
                                 disabled={processing}
                             >
                                 Sign In
-                            </button>
+                            </Button>
                         </form>
                     </CardContent>
                     <CardFooter className="flex justify-center">
