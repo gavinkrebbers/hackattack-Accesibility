@@ -1,5 +1,4 @@
 import { Head, Link, useForm } from "@inertiajs/react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -12,7 +11,6 @@ import {
     CardFooter,
 } from "@/components/ui/card";
 import { AtSign, Lock } from "lucide-react";
-import AppLayout from "@/Layouts/AppLayout";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -115,13 +113,13 @@ export default function Login({ status, canResetPassword }) {
                                     </Link>
                                 )}
                             </div>
-                            <Button
+                            <button
                                 type="submit"
                                 className="w-full"
                                 disabled={processing}
                             >
                                 Sign In
-                            </Button>
+                            </button>
                         </form>
                     </CardContent>
                     <CardFooter className="flex justify-center">
