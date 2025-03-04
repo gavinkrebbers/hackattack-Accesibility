@@ -69,12 +69,12 @@ class ReportController extends Controller
         $url = $request->input("url");
         $user = Auth::user();
 
+
+
+        $reportData = $this->generateReport($url);
         $reportContainer = $user->reportContainers()->create([
             "url" => $url
         ]);
-
-        $reportData = $this->generateReport($url);
-
         $report = $reportContainer->reports()->create([
             'url' => $url,
             'report' => json_encode([

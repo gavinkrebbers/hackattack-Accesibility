@@ -1,5 +1,3 @@
-"use client";
-
 const flashcards = [
     {
         question: "What is web accessibility?",

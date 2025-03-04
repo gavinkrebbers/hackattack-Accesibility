@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import ThumbsUp from "/public/good_score.png";
 import HappyGam from "/public/gam_happy_sticker.png";
