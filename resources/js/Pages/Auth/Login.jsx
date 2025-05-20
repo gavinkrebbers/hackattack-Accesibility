@@ -1,7 +1,7 @@
 import { Head, Link, useForm } from "@inertiajs/react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/Components/ui/input";
+import { Label } from "@/Components/ui/label";
+import { Checkbox } from "@/Components/ui/checkbox";
 import {
     Card,
     CardHeader,
@@ -9,7 +9,7 @@ import {
     CardDescription,
     CardContent,
     CardFooter,
-} from "@/components/ui/card";
+} from "@/Components/ui/card";
 import { AtSign, Lock } from "lucide-react";
 import { Button } from "@headlessui/react";
 

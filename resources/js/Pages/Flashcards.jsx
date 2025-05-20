@@ -119,9 +119,9 @@ const flashcards = [
 
 import { useState } from "react";
 import AppLayout from "@/Layouts/AppLayout";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { Button } from "@/Components/ui/button";
+import { Card } from "@/Components/ui/card";
+import { Progress } from "@/Components/ui/progress";
 import { ChevronLeft, ChevronRight, Repeat2 } from "lucide-react";
 export default function FlashcardApp() {
     const [currentIndex, setCurrentIndex] = useState(0);

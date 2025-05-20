@@ -3,15 +3,15 @@ import Laptop from "/public/splaptop.gif";
 import Teacher from "/public/sp1.gif";
 import { useEffect, useState } from "react";
 import { ArrowRight, Check, Shield } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+} from "@/Components/ui/card";
+import { Input } from "@/Components/ui/input";
 import AppLayout from "@/Layouts/AppLayout";
 import { router } from "@inertiajs/react";
 import { usePage } from "@inertiajs/react";

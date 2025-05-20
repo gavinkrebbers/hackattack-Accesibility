@@ -9,7 +9,7 @@ import {
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@/Components/ui/tooltip";
 
 export default function ScoreIndicator({ score }) {
     const [image, setImage] = useState(ThumbsUp);

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, usePage, router } from "@inertiajs/react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
+import { Button } from "@/Components/ui/button";
 import { Menu } from "lucide-react";
 import { BarChart2, Book, Info, Shield } from "lucide-react";
 

@@ -1,7 +1,7 @@
 import { Head, Link, useForm } from "@inertiajs/react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/Components/ui/button";
+import { Input } from "@/Components/ui/input";
+import { Label } from "@/Components/ui/label";
 import {
     Card,
     CardHeader,
@@ -9,7 +9,7 @@ import {
     CardDescription,
     CardContent,
     CardFooter,
-} from "@/components/ui/card";
+} from "@/Components/ui/card";
 import { User, AtSign, Lock } from "lucide-react";
 
 export default function Register() {

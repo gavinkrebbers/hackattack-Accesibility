@@ -7,10 +7,10 @@ import {
     CardHeader,
     CardTitle,
     CardFooter,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+} from "@/Components/ui/card";
+import { Badge } from "@/Components/ui/badge";
+import { Button } from "@/Components/ui/button";
+import { Input } from "@/Components/ui/input";
 import {
     CalendarDays,
     ExternalLink,
@@ -29,7 +29,7 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from "@/components/ui/dialog";
+} from "@/Components/ui/dialog";
 import ScoreIndicator from "@/Components/my-components/ScoreIndicator";
 
 export default function ShowUser({ auth }) {
