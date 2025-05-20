@@ -66,26 +66,32 @@ class ReportController extends Controller
     }
     public function create(Request $request)
     {
-        $url = $request->input("url");
-        $user = Auth::user();
+
+        try {
+            $url = $request->input("url");
+            $user = Auth::user();
 
 
 
-        $reportData = $this->generateReport($url);
-        $reportContainer = $user->reportContainers()->create([
-            "url" => $url
-        ]);
-        $report = $reportContainer->reports()->create([
-            'url' => $url,
-            'report' => json_encode([
-                'passed' => $reportData["passed"],
-                'failed' => $reportData["failed"],
-                'not_applicable' => $reportData["notApplicable"]
-            ]),
-            'score' => $reportData["score"],
-            'user_id' => $user->id,
-        ]);
-        return redirect()->route('container.show', ['id' => $reportContainer->id]);
+            $reportData = $this->generateReport($url);
+            $reportContainer = $user->reportContainers()->create([
+                "url" => $url
+            ]);
+            $reportContainer->reports()->create([
+                'url' => $url,
+                'report' => json_encode([
+                    'passed' => $reportData["passed"],
+                    'failed' => $reportData["failed"],
+                    'not_applicable' => $reportData["notApplicable"]
+                ]),
+                'score' => $reportData["score"],
+                'user_id' => $user->id,
+            ]);
+            return redirect()->route('container.show', ['id' => $reportContainer->id]);
+        } catch (\RuntimeException $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+
 
         // return redirect()->route("report.show", ["id" => $report->id]);
     }
