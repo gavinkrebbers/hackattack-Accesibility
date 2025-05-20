@@ -7,6 +7,7 @@ use App\Models\ReportContainer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Symfony\Component\Process\Process;
@@ -64,37 +65,6 @@ class ReportController extends Controller
         $report = Report::findOrFail($id);
         return Inertia::render("ShowReport", ["report" => $report]);
     }
-    public function create(Request $request)
-    {
-
-        try {
-            $url = $request->input("url");
-            $user = Auth::user();
-
-
-
-            $reportData = $this->generateReport($url);
-            $reportContainer = $user->reportContainers()->create([
-                "url" => $url
-            ]);
-            $reportContainer->reports()->create([
-                'url' => $url,
-                'report' => json_encode([
-                    'passed' => $reportData["passed"],
-                    'failed' => $reportData["failed"],
-                    'not_applicable' => $reportData["notApplicable"]
-                ]),
-                'score' => $reportData["score"],
-                'user_id' => $user->id,
-            ]);
-            return redirect()->route('container.show', ['id' => $reportContainer->id]);
-        } catch (\RuntimeException $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-        }
-
-
-        // return redirect()->route("report.show", ["id" => $report->id]);
-    }
 
 
     public function delete(int $id)
@@ -105,87 +75,136 @@ class ReportController extends Controller
         return redirect()->route("user.show");
     }
 
-
-    private function generateReport(string $url)
+    public function create(Request $request)
     {
-        set_time_limit(300);
-        $process = new Process([
-            'lighthouse',
-            $url,
-            '--output=json',
-            '--quiet',
-            '--only-categories=accessibility',
-            '--chrome-flags="--headless"'
+        $request->validate([
+            'url' => 'required|url'
         ]);
 
-        $process->run();
+        $url = $request->input("url");
+        $user = Auth::user();
 
-        if (!$process->isSuccessful()) {
-            return response()->json(['error' => 'Lighthouse failed: ' . $process->getErrorOutput()], 500);
+        try {
+            $reportData = $this->generateReport($url);
+
+            // Check for Lighthouse execution errors
+            if (isset($reportData['error'])) {
+                throw new \RuntimeException($reportData['error']);
+            }
+
+            $reportContainer = $user->reportContainers()->create([
+                "url" => $url
+            ]);
+
+            $reportContainer->reports()->create([
+                'url' => $url,
+                'report' => json_encode([
+                    'passed' => $reportData["passed"],
+                    'failed' => $reportData["failed"],
+                    'not_applicable' => $reportData["notApplicable"]
+                ]),
+                'score' => $reportData["score"],
+                'user_id' => $user->id,
+            ]);
+
+            return redirect()->route('container.show', ['id' => $reportContainer->id]);
+        } catch (\Exception $e) {
+            Log::error("Lighthouse report failed for $url: " . $e->getMessage());
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['lighthouse' => 'Failed to generate report. Please try again.']);
         }
+    }
 
-        $reportData = json_decode($process->getOutput(), true);
+    private function generateReport(string $url): array
+    {
+        set_time_limit(300);
 
-        $passed = [];
-        $failed = [];
-        $notApplicable = [];
+        try {
+            $process = new Process([
+                'lighthouse',
+                $url,
+                '--output=json',
+                '--quiet',
+                '--only-categories=accessibility',
+                '--chrome-flags="--headless --no-sandbox"'
+            ]);
 
-        foreach ($reportData['audits'] as $audit => $auditResult) {
-            $audit_data = [
-                'id' => $audit,
-                'title' => $auditResult['title'],
-                'description' => $auditResult['description'],
-                'score' => $auditResult['score'],
-            ];
+            $process->run();
 
-            if ($auditResult['score'] === 1) {
-                $passed[] = $audit_data;
-            } elseif ($auditResult['score'] === 0) {
-                $snippets = [];
-                $explanation = null;
+            // Debug logging
+            Log::debug("Lighthouse command: " . $process->getCommandLine());
+            Log::debug("Lighthouse output: " . $process->getOutput());
+            Log::debug("Lighthouse errors: " . $process->getErrorOutput());
 
-                if (isset($auditResult['details']['items'])) {
-                    foreach ($auditResult['details']['items'] as $item) {
-                        if (isset($item['node']['snippet'])) {
-                            $snippets[] = [
-                                'code_snippet' => $item['node']['snippet'],
-                            ];
-                        }
-                        if (isset($item['node']['explanation']) && $explanation === null) {
-                            $explanation = $item['node']['explanation'];
-                        }
+            if (!$process->isSuccessful()) {
+                throw new \RuntimeException($process->getErrorOutput());
+            }
 
-                        if (isset($item['subItems']) && isset($item['subItems']['items'])) {
-                            foreach ($item['subItems']['items'] as $subItem) {
-                                if (isset($subItem['relatedNode']['snippet'])) {
-                                    $snippets[] = [
-                                        'code_snippet' => $subItem['relatedNode']['snippet'],
-                                    ];
-                                }
+            $reportData = json_decode($process->getOutput(), true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \RuntimeException('Invalid JSON output from Lighthouse');
+            }
+
+            // Parse report data
+            $passed = [];
+            $failed = [];
+            $notApplicable = [];
+
+            foreach ($reportData['audits'] as $audit => $auditResult) {
+                $audit_data = [
+                    'id' => $audit,
+                    'title' => $auditResult['title'] ?? '',
+                    'description' => $auditResult['description'] ?? '',
+                    'score' => $auditResult['score'] ?? null,
+                ];
+
+                if (($auditResult['score'] ?? null) === 1) {
+                    $passed[] = $audit_data;
+                } elseif (($auditResult['score'] ?? null) === 0) {
+                    $snippets = [];
+                    $explanation = null;
+
+                    if (isset($auditResult['details']['items'])) {
+                        foreach ($auditResult['details']['items'] as $item) {
+                            if (isset($item['node']['snippet'])) {
+                                $snippets[] = ['code_snippet' => $item['node']['snippet']];
+                            }
+                            if (isset($item['node']['explanation']) && $explanation === null) {
+                                $explanation = $item['node']['explanation'];
                             }
                         }
                     }
-                }
 
-                if (!empty($snippets)) {
-                    $failed[] = [
-                        'id' => $audit,
-                        'title' => $auditResult['title'],
-                        'description' => $auditResult['description'],
-                        'score' => $auditResult['score'],
+                    $failed[] = array_merge($audit_data, [
                         'issues' => [
                             'snippets' => $snippets,
                             'explanation' => $explanation,
                         ],
-                    ];
+                    ]);
+                } else {
+                    $notApplicable[] = $audit_data;
                 }
-            } else {
-                $notApplicable[] = $audit_data;
             }
+
+            $score = $reportData['categories']['accessibility']['score'] * 100;
+
+            return [
+                "passed" => $passed,
+                "failed" => $failed,
+                "notApplicable" => $notApplicable,
+                "score" => $score
+            ];
+        } catch (\Exception $e) {
+            Log::error("Lighthouse error: " . $e->getMessage());
+            return [
+                "passed" => [],
+                "failed" => [],
+                "notApplicable" => [],
+                "score" => 0,
+                "error" => $e->getMessage()
+            ];
         }
-
-        $score = $reportData['categories']['accessibility']['score'] * 100;
-
-        return ["passed" => $passed, "failed" => $failed, "notApplicable" => $notApplicable, "score" => $score];
     }
 }
