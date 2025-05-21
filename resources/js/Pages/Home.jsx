@@ -2,7 +2,7 @@ import GamGam from "/public/gamsitting.png";
 import Laptop from "/public/splaptop.gif";
 import Teacher from "/public/sp1.gif";
 import { useEffect, useState } from "react";
-import { ArrowRight, Check, Shield } from "lucide-react";
+import { ArrowRight, Check, Shield, X } from "lucide-react";
 import { Button } from "@/Components/ui/button";
 import {
     Card,
@@ -13,7 +13,7 @@ import {
 } from "@/Components/ui/card";
 import { Input } from "@/Components/ui/input";
 import AppLayout from "@/Layouts/AppLayout";
-import { router } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { usePage } from "@inertiajs/react";
 import { motion, useScroll } from "framer-motion";
 import LoadingScreen from "./LoadingScreen";
@@ -24,11 +24,15 @@ export default function Home() {
     const [isValidUrl, setIsValidUrl] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [showAuthNotification, setShowAuthNotification] = useState(false);
+    const [showWelcomePopup, setShowWelcomePopup] = useState(false);
     const { auth } = usePage().props;
 
     const { scrollYProgress } = useScroll();
     const [gifPosition, setGifPosition] = useState(0);
+
     useEffect(() => {
+        setShowWelcomePopup(true);
+
         const unsubscribe = scrollYProgress.on("change", (progress) => {
             setGifPosition(progress * 90);
         });
@@ -56,9 +60,55 @@ export default function Home() {
         }
     };
 
+    const closeWelcomePopup = () => {
+        setShowWelcomePopup(false);
+    };
+
     return (
         <AppLayout>
             {isLoading && <LoadingScreen />}
+
+            {/* Welcome Popup */}
+            {showWelcomePopup && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <div className="relative w-full max-w-md p-6 mx-4 rounded-lg shadow-lg bg-[#faf6e6]">
+                        <button
+                            onClick={closeWelcomePopup}
+                            className="absolute p-1 rounded-full top-3 right-3 hover:bg-[#F0E8D2]"
+                            aria-label="Close popup"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+                        <div className="space-y-4">
+                            <h2 className="text-2xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+                                Welcome to A11Y!
+                            </h2>
+                            <p>
+                                Unfortunately our report generating service is
+                                currently down due to updates in certain APIs we
+                                are using. Feel free to check out our flashcards
+                                or info section to learn more about web
+                                accesibilty of checkout out devpost at{" "}
+                                <a
+                                    href="https://devpost.com/software/a11y-4esncu"
+                                    preventDefault
+                                >
+                                    https://devpost.com/software/a11y-4esncu
+                                </a>
+                            </p>
+                            <p>
+                                Sorry for any incovinience! We are trying to fix
+                                this as soon as possible.
+                            </p>
+                            <div className="flex justify-end">
+                                <Button onClick={closeWelcomePopup}>
+                                    Got it!
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <main className="flex flex-col min-h-screen bg-[#faf6e6]">
                 {/* First Section: Introduction */}
@@ -150,7 +200,7 @@ export default function Home() {
                         {/* Left Image */}
                         <div className="flex-shrink-0 hidden ml-4 lg:block">
                             <img
-                                src={Teacher}
+                                src={Teacher || "/placeholder.svg"}
                                 alt="Teacher illustration"
                                 className="h-auto max-w-[150px]"
                             />
@@ -266,7 +316,7 @@ export default function Home() {
                         {/* Right Image */}
                         <div className="flex-shrink-0 hidden mr-4 lg:block">
                             <img
-                                src={Laptop}
+                                src={Laptop || "/placeholder.svg"}
                                 alt="Laptop illustration"
                                 className="h-auto max-w-[150px]"
                             />
