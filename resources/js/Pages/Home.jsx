@@ -92,6 +92,7 @@ export default function Home() {
                                 <a
                                     href="https://devpost.com/software/a11y-4esncu"
                                     preventDefault
+                                    className="text-blue-500 underline"
                                 >
                                     https://devpost.com/software/a11y-4esncu
                                 </a>
