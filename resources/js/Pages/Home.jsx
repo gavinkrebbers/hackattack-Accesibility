@@ -88,7 +88,7 @@ export default function Home() {
                                 currently down due to updates in certain APIs we
                                 are using. Feel free to check out our flashcards
                                 or info section to learn more about web
-                                accesibilty of checkout out devpost at{" "}
+                                accesibilty of checkout our devpost at{" "}
                                 <a
                                     href="https://devpost.com/software/a11y-4esncu"
                                     preventDefault
