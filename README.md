@@ -37,7 +37,7 @@ While collaborating with a team, we learned to use Git and GitHub and resolve me
 ## Team & Credits
 
 -   **Gavin Krebbers**  
-    Designed and developed the backend architecture, including the database schema and API logic. Integrated Laravel with Inertia.js to connect the backend to the React frontend, ensuring seamless data flow and user experience. Also contributed significantly to the React frontend.
+    Designed and developed the backend architecture, including the database schema and API logic. Integrated Laravel with Inertia.js to connect the backend to the React frontend, ensuring seamless data flow and user experience. Also contributed to the React frontend.
 
 -   **An Tran**  
     I worked on the design and front-end. It was my first time working with React and Git; I've only worked on solo projects until this Hackathon. It was an invaluable experience learning how to navigate a project and work as part of a team.
