@@ -1,66 +1,53 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# HackAttack2: Accessibility Checker
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+HackAttack2 is a web application designed to help users check and improve the accessibility of their websites. Built with Laravel, Inertia.js, and Tailwind CSS, it provides a user-friendly interface for analyzing web pages and receiving actionable feedback to make the web more inclusive for everyone.
 
-## About Laravel
+## Inspiration
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Real-world accessibility issues, such as the difficulties people with disabilities face when navigating websites, inspired us to create a platform that educates web developers on how to build more accessible websites. Despite growing awareness, many websites still fail to meet the diverse requirements of users with visual, auditory, or motor impairments. By providing developers with practical resources, guidelines, and tools, our website aims to bridge the gap and help create a more inclusive digital world. We believe accessibility should be an integral part of web development, and through education, we hope to empower developers to prioritize inclusivity in their designs.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## What it does
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+A11Y is dedicated to educating web developers on how to build more accessible websites. We provide comprehensive reports on the accessibility of their sites, highlighting areas for improvement and offering actionable recommendations. In addition, we supply a variety of resources, including tutorials, guides, and tools, to help developers deepen their knowledge and apply best practices for accessibility. Our goal is to empower developers to create websites that are usable by all, regardless of ability.
 
-## Learning Laravel
+## Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   **Accessibility Analysis**: Scan web pages for common accessibility issues and receive detailed reports.
+-   **User Dashboard**: View your past reports and track improvements over time.
+-   **Modern UI**: Clean, responsive design using Tailwind CSS.
+-   **Authentication**: Secure login and registration for personalized experiences.
+-   **Report Exporting**: Download or share accessibility reports.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## How we built it
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Our website is built with Laravel and MySQL for the backend, integrated with React via Inertia, and styled using CSS and TailwindCSS. Gavin developed the backend while contributing to the frontend. Megan and Anne handled the art, animations, and design, with Mathew assisting in implementation, design, and research.
 
-## Laravel Sponsors
+## Challenges we ran into
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+A major challenge we had to face was how difficult the backend was to run on some team member’s computers, due to the amount of prerequisite software it required. This led to us having to split up our project into separate frontend and backend GitHub repos, and having to work on each aspect individually. However, due to the way Gavin structured the backend, it was fairly easy to graft the two projects together once each aspect was completed.
 
-### Premium Partners
+## Accomplishments that we're proud of
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+One of our proudest accomplishments is learning how to collaborate and communicate with our team members, which allowed us to effectively build upon our teamwork and leadership skills. This collaboration resulted in a website that is not only visually appealing but also highly accessible, earning an impressive accessibility score of 95. Additionally, we take pride in our ability to develop a fully functional website within a tight timeframe, a challenge that helped refine our technical abilities and strengthen our time management skills.
 
-## Contributing
+## What we learned
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+While collaborating with a team, we learned to use Git and GitHub and resolve merge conflicts. In order to put our mission into practice, we studied web accessibility and the general guidelines to create a website that is accessible to all users. Our programming skills were refined and polished as we continuously practiced and fixed our code.
 
-## Code of Conduct
+## Team & Credits
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+-   **An Tran**  
+    I worked on the design and front-end. It was my first time working with React and Git; I've only worked on solo projects until this Hackathon. It was an invaluable experience learning how to navigate a project and work as part of a team.
 
-## Security Vulnerabilities
+-   **Megan Dava**  
+    I worked on the front-end mainly, which was my first time using React in a practical application. I also learned a lot of teamwork and leadership skills.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-   **Matthew S**  
+    Assisted in implementation, design, and research.
+
+-   **Gavin Krebbers**  
+    Did the backend and contributed to the frontend.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced under the MIT license.
