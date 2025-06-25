@@ -1,6 +1,6 @@
-# HackAttack2: Accessibility Checker
+# A11Y: Accessibility Checker
 
-HackAttack2 is a web application designed to help users check and improve the accessibility of their websites. Built with Laravel, Inertia.js, and Tailwind CSS, it provides a user-friendly interface for analyzing web pages and receiving actionable feedback to make the web more inclusive for everyone.
+A11Y is a web application designed to help users check and improve the accessibility of their websites. Built with Laravel, Inertia.js, and Tailwind CSS, it provides a user-friendly interface for analyzing web pages and receiving actionable feedback to make the web more inclusive for everyone.
 
 ## Inspiration
 
